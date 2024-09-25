@@ -24,7 +24,8 @@ ssh-keygen -t ed25519 -C "your_email@example.com"
 cat /root/.ssh/id_ed25519.pub
 ```
 
-5. Run the flake replacing the ip with your target
+5. cd into the dir and Run the flake replacing the ip with your target
 ```
+cd nixos-anywhere-configs
 nix run github:nix-community/nixos-anywhere -- --flake .#digitalocean root@<ip>
 ```
