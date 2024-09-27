@@ -1,6 +1,6 @@
-# nixos-anywhere-examples
+# nixos-anywhere-configs
 
-Checkout the [flake.nix](flake.nix) for examples tested on different hosters.
+Run this from another machine, you run this and it reformats the target then you ssh into the target which will now be running nixos.
 
 # Steps
 
@@ -14,14 +14,20 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 git clone https://github.com/kodylow/nixos-anywhere-configs.git
 ```
 
-3. Make an ephemeral SSH key
+3. Make an SSH key
 ```
-ssh-keygen -t ed25519 -C "your_email@example.com"
+ssh-keygen -t ed25519 -C "kodylow7@proton.me"
 ```
 
 4. Stick the public key in the authorized_keys of the configuration.nix
 ```
-cat /root/.ssh/id_ed25519.pub
+sed -i '/users.users.root.openssh.authorizedKeys.keys/,/];/ c\  users.users.root.openssh.authorizedKeys.keys = [\n    "'"$(cat ~/.ssh/id_ed25519.pub)"'"\n  ];' nixos-anywhere-configs/configuration.nix
+```
+
+5. Copy the public key to the target machine
+
+```
+ssh-copy-id -i id_ed25519.pub root@<ip>
 ```
 
 5. cd into the dir and Run the flake replacing the ip with your target
